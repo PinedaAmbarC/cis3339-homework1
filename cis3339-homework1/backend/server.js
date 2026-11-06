@@ -1,7 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
+const connectDB = require('./config/db');
+require('./models'); // register Student, Course, Enrollment models
 
 const app = express();
 app.use(cors());
@@ -96,8 +99,17 @@ app.post('/delete-student', async (req, res) => {
     }
 });
 
-// Start the server
-const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+// Start the server only after MongoDB is connected and indexes are built
+const PORT = process.env.PORT || 3000;
+
+connectDB()
+    .then(() => {
+        app.listen(PORT, () => {
+            console.log(`Server is running on http://localhost:${PORT}`);
+        });
+    })
+    .catch((error) => {
+        console.error('Failed to connect to MongoDB:', error.message);
+        console.error('Is MongoDB running? Check MONGODB_URI in backend/.env');
+        process.exit(1);
+    });
