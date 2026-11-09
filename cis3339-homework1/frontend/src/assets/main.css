@@ -1,35 +1,271 @@
-@import './base.css';
+:root {
+  --bg: #f5f7fa;
+  --surface: #ffffff;
+  --text: #1c2430;
+  --muted: #5d6877;
+  --line: #d8dee7;
+  --primary: #1f5fbf;
+  --primary-text: #ffffff;
+  --danger: #b3261e;
+  --ok-bg: #e4f5ea;
+  --ok-text: #14532d;
+  --err-bg: #fdeaea;
+  --err-text: #7f1d1d;
+  --info-bg: #e8eef9;
+  --info-text: #1e3a6e;
+}
 
-#app {
-  max-width: 1280px;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12161c;
+    --surface: #1a2029;
+    --text: #e6ebf2;
+    --muted: #9aa6b5;
+    --line: #2d3644;
+    --primary: #6ea2f5;
+    --primary-text: #0c1626;
+    --danger: #f28b82;
+    --ok-bg: #12301f;
+    --ok-text: #a8e6bf;
+    --err-bg: #3a1a1a;
+    --err-text: #f5b5b0;
+    --info-bg: #1b2a44;
+    --info-text: #b6cdf5;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.5 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+.container {
+  max-width: 900px;
   margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
+  padding: 0 16px;
 }
 
-a,
-.green {
+main.container {
+  padding-top: 20px;
+  padding-bottom: 48px;
+}
+
+h1 {
+  font-size: 1.6rem;
+  margin: 0 0 16px;
+}
+
+h2 {
+  font-size: 1.1rem;
+  margin: 0 0 12px;
+}
+
+/* Header and navigation */
+.site-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+nav {
+  display: flex;
+  gap: 4px;
+}
+
+nav a {
+  color: var(--text);
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+  padding: 6px 12px;
+  border-radius: 6px;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+nav a:hover {
+  background: var(--bg);
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
+nav a.router-link-active {
+  background: var(--primary);
+  color: var(--primary-text);
+}
 
-  #app {
-    display: grid;
+/* Cards and forms */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.form-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.form-grid h2 {
+  margin: 0;
+}
+
+@media (min-width: 640px) {
+  .form-grid {
     grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
   }
+  .form-grid h2,
+  .form-grid > small,
+  .form-grid > button {
+    grid-column: 1 / -1;
+  }
+  .form-grid > button {
+    justify-self: start;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+label {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+input,
+select {
+  font: inherit;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 8px 10px;
+  width: 100%;
+}
+
+input[aria-invalid='true'] {
+  border-color: var(--danger);
+}
+
+input:focus-visible,
+select:focus-visible,
+button:focus-visible,
+nav a:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.field-error {
+  color: var(--danger);
+  font-size: 0.85rem;
+}
+
+button {
+  font: inherit;
+  background: var(--primary);
+  color: var(--primary-text);
+  border: 0;
+  border-radius: 6px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+button.danger {
+  background: transparent;
+  color: var(--danger);
+  border: 1px solid var(--danger);
+  padding: 4px 10px;
+}
+
+/* Tables */
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+th {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.section-head h2 {
+  margin: 0;
+}
+
+.search {
+  min-width: 220px;
+}
+
+/* Status messages */
+.banner {
+  margin: 12px 0;
+  padding: 10px 12px;
+  border-radius: 6px;
+}
+
+.banner.info {
+  background: var(--info-bg);
+  color: var(--info-text);
+}
+
+.banner.success {
+  background: var(--ok-bg);
+  color: var(--ok-text);
+}
+
+.banner.error {
+  background: var(--err-bg);
+  color: var(--err-text);
+}
+
+.empty {
+  color: var(--muted);
+  margin: 12px 0 0;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
